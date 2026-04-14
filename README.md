@@ -45,7 +45,7 @@ Aplikacja została napisana w najnowszych standardach tworzenia aplikacji na sys
 - [x] Sprint 2: Formularze i Edycja klienta (pamięć tymczasowa).
 
 **KWIECIEŃ (Komunikacja i Baza) - *Aktualny etap***
-- [ ] Sprint 3: Usuwanie klienta i szybki kontakt (Intenty systemowe: Zadzwoń / E-mail / WhatsApp).
+- [x] Sprint 3: Usuwanie klienta i szybki kontakt (Intenty systemowe: Zadzwoń / E-mail / WhatsApp).
 - [ ] Sprint 4: Wdrożenie bazy Room (trwały zapis) i wyszukiwarka.
 
 **MAJ (Automatyzacja - CORE)**
