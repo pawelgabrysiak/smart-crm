@@ -46,7 +46,7 @@ Aplikacja została napisana w najnowszych standardach tworzenia aplikacji na sys
 
 **KWIECIEŃ (Komunikacja i Baza) - *Aktualny etap***
 - [x] Sprint 3: Usuwanie klienta i szybki kontakt (Intenty systemowe: Zadzwoń / E-mail / WhatsApp).
-- [ ] Sprint 4: Wdrożenie bazy Room (trwały zapis) i wyszukiwarka.
+- [x] Sprint 4: Wdrożenie bazy Room (trwały zapis) i wyszukiwarka.
 
 **MAJ (Automatyzacja - CORE)**
 - [ ] Sprint 5: Inteligentne Statusy (WorkManager) – automat po 14 dniach.
