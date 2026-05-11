@@ -80,5 +80,5 @@ dependencies {
     // --- WorkManager ---
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.hilt.work)
-    kapt(libs.androidx.hilt.work.compiler)
+    kapt(libs.androidx.hilt.compiler)
 }

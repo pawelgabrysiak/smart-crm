@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -48,8 +49,7 @@ class MainActivity : ComponentActivity() {
                             viewModel = viewModel,
                             onNavigateToSearch = { navController.navigate("search") },
                             onNavigateToDetails = { client ->
-                                viewModel.onClientClick(client)
-                                navController.navigate("details")
+                                navController.navigate("details/${client.id}")
                             }
                         )
                     }
@@ -60,14 +60,20 @@ class MainActivity : ComponentActivity() {
                             viewModel = viewModel,
                             onBack = { navController.popBackStack() },
                             onNavigateToDetails = { client ->
-                                viewModel.onClientClick(client)
-                                navController.navigate("details")
+                                navController.navigate("details/${client.id}")
                             }
                         )
                     }
                     // Ekran detali klienta
-                    composable("details") {
+                    composable("details/{clientId}") { backStackEntry ->
+                        val clientId = backStackEntry.arguments?.getString("clientId")
                         val viewModel: CrmViewModel = hiltViewModel()
+                        
+                        // Załaduj dane klienta po wejściu na ekran
+                        LaunchedEffect(clientId) {
+                            clientId?.let { viewModel.loadClientDetails(it) }
+                        }
+
                         ClientDetailScreen(
                             viewModel = viewModel,
                             onBack = { navController.popBackStack() }

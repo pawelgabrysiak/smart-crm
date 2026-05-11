@@ -58,12 +58,10 @@ class CrmViewModel @Inject constructor(
     }
 
     // --- Nawigacja i Detale ---
-    fun onClientClick(client: Client) {
+    fun loadClientDetails(clientId: String) {
+        val client = _uiState.value.clients.find { it.id == clientId }
         _uiState.update { it.copy(selectedClient = client) }
-        loadClientDetails(client.id)
-    }
 
-    private fun loadClientDetails(clientId: String) {
         viewModelScope.launch {
             repository.getNotesForClient(clientId).collect { notes ->
                 _uiState.update { it.copy(notes = notes) }
