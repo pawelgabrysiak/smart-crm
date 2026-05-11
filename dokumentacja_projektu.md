@@ -57,7 +57,7 @@ Aplikacja stała się wielostronicowa (Nawigacja).
 
 ---
 
-## Podsumowanie "Efektu WOW" dla prowadzącego:
+## Podsumowanie "Efektu WOW"
 1.  **Automatyzacja**: WorkManager sam zmienia statusy klientów po 14 dniach bez ingerencji użytkownika.
 2.  **Auto-Logowanie**: Każde kliknięcie w ikonę kontaktu (telefon/mail) jest automatycznie zapisywane w historii klienta.
 3.  **Modern UI**: Wykorzystanie Material 3, BottomSheet (wysuwany formularz) i płynnej nawigacji między ekranami.
