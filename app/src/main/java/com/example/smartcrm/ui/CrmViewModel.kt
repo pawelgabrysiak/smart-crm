@@ -8,18 +8,23 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// Klasa przechowująca aktualny stan widoku (dane wpisane w pola, lista klientów)
+// Klasa przechowująca aktualny stan widoku
 data class CrmUiState(
     val clients: List<Client> = emptyList(),
     val searchQuery: String = "",
     val nameInput: String = "",
     val emailInput: String = "",
     val phoneInput: String = "",
-    val editingClientId: String? = null
+    val editingClientId: String? = null,
+    val selectedClient: Client? = null,
+    val notes: List<Note> = emptyList(),
+    val interactions: List<Interaction> = emptyList(),
+    val noteInput: String = ""
 )
 
 @HiltViewModel
 class CrmViewModel @Inject constructor(
+    private val repository: ClientRepository, // Potrzebny do notatek i historii
     private val getClientsUseCase: GetClientsUseCase,
     private val addClientUseCase: AddClientUseCase,
     private val updateClientUseCase: UpdateClientUseCase,
@@ -52,7 +57,55 @@ class CrmViewModel @Inject constructor(
         }
     }
 
-    // Funkcje aktualizujące stan po wpisaniu tekstu przez użytkownika
+    // --- Nawigacja i Detale ---
+    fun onClientClick(client: Client) {
+        _uiState.update { it.copy(selectedClient = client) }
+        loadClientDetails(client.id)
+    }
+
+    private fun loadClientDetails(clientId: String) {
+        viewModelScope.launch {
+            repository.getNotesForClient(clientId).collect { notes ->
+                _uiState.update { it.copy(notes = notes) }
+            }
+        }
+        viewModelScope.launch {
+            repository.getInteractionsForClient(clientId).collect { interactions ->
+                _uiState.update { it.copy(interactions = interactions) }
+            }
+        }
+    }
+
+    // --- Notatki ---
+    fun onNoteInputChange(newValue: String) {
+        _uiState.update { it.copy(noteInput = newValue) }
+    }
+
+    fun addNote() {
+        val clientId = _uiState.value.selectedClient?.id ?: return
+        val content = _uiState.value.noteInput
+        if (content.isBlank()) return
+
+        viewModelScope.launch {
+            repository.addNote(clientId, content)
+            _uiState.update { it.copy(noteInput = "") }
+        }
+    }
+
+    fun deleteNote(noteId: String) {
+        viewModelScope.launch {
+            repository.deleteNote(noteId)
+        }
+    }
+
+    // --- Historia ---
+    fun logInteraction(clientId: String, type: String) {
+        viewModelScope.launch {
+            repository.addInteraction(clientId, type)
+        }
+    }
+
+    // --- Funkcje formularza głównego ---
     fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
     }
@@ -69,25 +122,22 @@ class CrmViewModel @Inject constructor(
         _uiState.update { it.copy(phoneInput = newPhone) }
     }
 
-    // Zapisywanie nowego lub edytowanego klienta
     fun saveClient() {
         val state = _uiState.value
         viewModelScope.launch {
             if (state.editingClientId != null) {
-                // Jeśli edytujemy istniejącego klienta
                 val updated = Client(
                     id = state.editingClientId,
                     name = state.nameInput,
                     email = state.emailInput,
                     phone = state.phoneInput,
-                    status = "Zaktualizowany"
+                    status = "Zaktualizowany",
+                    createdAt = state.clients.find { it.id == state.editingClientId }?.createdAt ?: System.currentTimeMillis()
                 )
                 updateClientUseCase(updated)
             } else {
-                // Jeśli dodajemy nowego klienta
                 addClientUseCase(state.nameInput, state.emailInput, state.phoneInput)
             }
-            // Wyczyszczenie pól po zapisie
             _uiState.update {
                 it.copy(
                     nameInput = "",
@@ -99,7 +149,6 @@ class CrmViewModel @Inject constructor(
         }
     }
 
-    // Przygotowanie pól do edycji po kliknięciu ikonki ołówka
     fun onEditClick(client: Client) {
         _uiState.update { it.copy(
             nameInput = client.name,
@@ -109,7 +158,6 @@ class CrmViewModel @Inject constructor(
         ) }
     }
 
-    // Usuwanie klienta z bazy
     fun onDeleteClick(clientId: String) {
         viewModelScope.launch {
             deleteClientUseCase(clientId)

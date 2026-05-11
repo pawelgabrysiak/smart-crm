@@ -22,7 +22,8 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             "smart_crm_db"
-        ).build()
+        ).fallbackToDestructiveMigration() // Dodajemy to, aby przy zmianie wersji bazy (dodanie pola) nie wywalilo apki
+         .build()
     }
 
     @Provides

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.10.1"
+agp = "8.13.2"
 kotlin = "2.0.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -11,6 +11,8 @@ composeBom = "2024.09.00"
 hilt = "2.51.1"
 roomRuntime = "2.5.1"
 roomKtx = "2.5.1"
+workManager = "2.9.1"
+hiltWork = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +36,9 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.1
 retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version = "2.11.0" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
+androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
+androidx-hilt-work-compiler = { group = "androidx.hilt", name = "hilt-work-compiler", version.ref = "hiltWork" }
 
 
 [plugins]

@@ -36,6 +36,34 @@ class ClientRepository @Inject constructor(
     suspend fun deleteClient(clientId: String) {
         clientDao.deleteById(clientId)
     }
+
+    // --- Notatki ---
+    fun getNotesForClient(clientId: String) = clientDao.getNotesForClient(clientId)
+
+    suspend fun addNote(clientId: String, content: String) {
+        val note = Note(
+            id = UUID.randomUUID().toString(),
+            clientId = clientId,
+            content = content
+        )
+        clientDao.insertNote(note)
+    }
+
+    suspend fun deleteNote(noteId: String) {
+        clientDao.deleteNote(noteId)
+    }
+
+    // --- Historia ---
+    fun getInteractionsForClient(clientId: String) = clientDao.getInteractionsForClient(clientId)
+
+    suspend fun addInteraction(clientId: String, type: String) {
+        val interaction = Interaction(
+            id = UUID.randomUUID().toString(),
+            clientId = clientId,
+            type = type
+        )
+        clientDao.insertInteraction(interaction)
+    }
 }
 
 /* --- USE CASES (PRZYPADKI UŻYCIA) --- 

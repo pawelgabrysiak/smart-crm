@@ -76,4 +76,9 @@ dependencies {
     implementation(libs.retrofit)
     // UWAGA: Gradle zamienia myślnik na kropkę w accessors
     implementation(libs.retrofit.gson)
+
+    // --- WorkManager ---
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.work.compiler)
 }

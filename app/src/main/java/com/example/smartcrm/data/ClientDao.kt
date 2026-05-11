@@ -18,4 +18,21 @@ interface ClientDao {
     // Usuwa klienta o konkretnym ID z bazy danych.
     @Query("DELETE FROM clients WHERE id = :clientId")
     suspend fun deleteById(clientId: String)
+
+    // --- Notatki ---
+    @Query("SELECT * FROM notes WHERE clientId = :clientId ORDER BY createdAt DESC")
+    fun getNotesForClient(clientId: String): Flow<List<Note>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNote(note: Note)
+
+    @Query("DELETE FROM notes WHERE id = :noteId")
+    suspend fun deleteNote(noteId: String)
+
+    // --- Historia ---
+    @Query("SELECT * FROM interactions WHERE clientId = :clientId ORDER BY timestamp DESC")
+    fun getInteractionsForClient(clientId: String): Flow<List<Interaction>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertInteraction(interaction: Interaction)
 }

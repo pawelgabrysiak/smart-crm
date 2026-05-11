@@ -1,0 +1,9 @@
+W APP INSPECTION!!!!
+
+OPEN NEW QUERY TAB -> 
+
+    INSERT INTO clients (id, name, email, phone, status) 
+    VALUES ('123', 'Testowy Klient', 'test@wp.pl', '111222333', 'Nowy');
+
+-> RUN
+

@@ -13,5 +13,6 @@ data class Client(
     val name: String,
     val email: String,
     val phone: String,
-    val status: String
+    val status: String,
+    val createdAt: Long = System.currentTimeMillis() // Data utworzenia (do inteligentnych statusów)
 )
