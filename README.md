@@ -49,7 +49,7 @@ Aplikacja została napisana w najnowszych standardach tworzenia aplikacji na sys
 - [x] Sprint 4: Wdrożenie bazy Room (trwały zapis) i wyszukiwarka.
 
 **MAJ (Automatyzacja - CORE)**
-- [ ] Sprint 5: Inteligentne Statusy (WorkManager) – automat po 14 dniach.
+- [x] Sprint 5: Inteligentne Statusy (WorkManager) – automat po 14 dniach.
 - [ ] Sprint 6: Lokalne powiadomienia i szlify UX.
 
 **CZERWIEC (Finał i Opcje)**
