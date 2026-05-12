@@ -44,7 +44,7 @@ Aplikacja została napisana w najnowszych standardach tworzenia aplikacji na sys
 - [x] Sprint 1: Konfiguracja (Hilt, Compose), główna lista.
 - [x] Sprint 2: Formularze i Edycja klienta (pamięć tymczasowa).
 
-**KWIECIEŃ (Komunikacja i Baza) - *Aktualny etap***
+**KWIECIEŃ (Komunikacja i Baza)**
 - [x] Sprint 3: Usuwanie klienta i szybki kontakt (Intenty systemowe: Zadzwoń / E-mail / WhatsApp).
 - [x] Sprint 4: Wdrożenie bazy Room (trwały zapis) i wyszukiwarka.
 
