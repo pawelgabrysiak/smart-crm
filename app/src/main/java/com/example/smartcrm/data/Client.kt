@@ -9,10 +9,12 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "clients")
 data class Client(
-    @PrimaryKey val id: String, // unikalny indefikator klienta w bazie
+    @PrimaryKey val id: String, // unikalny indefikator klienta w baza
     val name: String,
     val email: String,
     val phone: String,
     val status: String,
-    val createdAt: Long = System.currentTimeMillis() // Data utworzenia (do inteligentnych statusów)
+    val imageUri: String? = null,
+    val deadline: Long? = null, // Nowe: data deadline'u (timestamp)
+    val createdAt: Long = System.currentTimeMillis()
 )

@@ -7,3 +7,5 @@ OPEN NEW QUERY TAB ->
 
 -> RUN
 
+INSERT INTO clients (id, name, email, phone, status, createdAt) 
+VALUES ('test1', 'Anna Nowak', 'anna@test.pl', '500600700', 'Nowy', 1715450000000);

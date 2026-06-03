@@ -16,13 +16,15 @@ class ClientRepository @Inject constructor(
     val clients = clientDao.getAllClients()
 
     // Tworzy nowego klienta z unikalnym ID i zapisuje go w bazie
-    suspend fun addClient(name: String, email: String, phone: String) {
+    suspend fun addClient(name: String, email: String, phone: String, imageUri: String? = null, deadline: Long? = null) {
         val newClient = Client(
             id = UUID.randomUUID().toString(), // Generowanie unikalnego ciągu znaków jako ID
             name = name,
             email = email,
             phone = phone,
-            status = "Nowy" // Domyślny status dla każdego nowego klienta
+            status = "Nowy", // Domyślny status dla każdego nowego klienta
+            imageUri = imageUri,
+            deadline = deadline
         )
         clientDao.insertClient(newClient)
     }
@@ -54,6 +56,8 @@ class ClientRepository @Inject constructor(
     }
 
     // --- Historia ---
+    fun getAllInteractions() = clientDao.getAllInteractions()
+
     fun getInteractionsForClient(clientId: String) = clientDao.getInteractionsForClient(clientId)
 
     suspend fun addInteraction(clientId: String, type: String) {
@@ -82,9 +86,9 @@ class GetClientsUseCase @Inject constructor(
 class AddClientUseCase @Inject constructor(
     private val repository: ClientRepository
 ) {
-    suspend operator fun invoke(name: String, email: String, phone: String) {
+    suspend operator fun invoke(name: String, email: String, phone: String, imageUri: String? = null, deadline: Long? = null) {
         if (name.isNotBlank() && email.isNotBlank() && phone.isNotBlank()) {
-            repository.addClient(name.trim(), email.trim(), phone.trim())
+            repository.addClient(name.trim(), email.trim(), phone.trim(), imageUri, deadline)
         }
     }
 }
