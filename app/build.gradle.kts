@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.extended)
 
 // Zamiast ręcznego val roomVersion, użyj aliasów z TOML:
     implementation(libs.androidx.room.runtime)
@@ -81,4 +82,7 @@ dependencies {
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.hilt.work)
     kapt(libs.androidx.hilt.compiler)
+
+    // --- Coil (Zdjęcia) ---
+    implementation(libs.coil.compose)
 }
