@@ -21,20 +21,64 @@ class StatusUpdateWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        // Pobieramy aktualną listę klientów z bazy (tylko raz)
+        // Pobieramy aktualną listę klientów i interakcji (tylko raz)
         val clients = clientDao.getAllClients().first()
+        val allInteractions = clientDao.getAllInteractions().first()
         val currentTime = System.currentTimeMillis()
         
-        // 14 dni w milisekundach (14 dni * 24h * 60m * 60s * 1000ms)
+        // Definicja "zamrożenia": 14 dni bez kontaktu
         val fourteenDaysInMillis = 14L * 24 * 60 * 60 * 1000
+        var frozenCount = 0
 
         clients.forEach { client ->
-            // Jeśli status to "Nowy" i minęło więcej niż 14 dni od utworzenia
-            if (client.status == "Nowy" && (currentTime - client.createdAt) > fourteenDaysInMillis) {
-                // Tworzymy kopię klienta ze zmienionym statusem
-                val updatedClient = client.copy(status = "Wymaga kontaktu")
-                clientDao.insertClient(updatedClient)
+            // Znajdź ostatnią interakcję dla tego klienta
+            val lastInteraction = allInteractions
+                .filter { it.clientId == client.id }
+                .maxByOrNull { it.timestamp }
+            
+            // Czas od ostatniego kontaktu (jeśli brak kontaktu, licz od daty utworzenia)
+            val timeSinceLastContact = if (lastInteraction != null) {
+                currentTime - lastInteraction.timestamp
+            } else {
+                currentTime - client.createdAt
             }
+
+            // Jeśli minęło więcej niż 14 dni i klient nie ma jeszcze statusu "Zamrożony"
+            if (timeSinceLastContact > fourteenDaysInMillis && client.status != "Zamrożony") {
+                val updatedClient = client.copy(status = "Zamrożony")
+                clientDao.insertClient(updatedClient)
+                frozenCount++
+            }
+        }
+
+        // --- Sprawdzanie Deadline'ów ---
+        val soonDeadlineInMillis = 24L * 60 * 60 * 1000 // 24h
+        var soonDeadlinesCount = 0
+
+        clients.forEach { client ->
+            client.deadline?.let { deadline ->
+                val timeToDeadline = deadline - currentTime
+                // Powiadomienie jeśli termin jest dzisiaj/jutro (do 24h) i nie minął jeszcze o więcej niż godzinę
+                if (timeToDeadline in -3600000..soonDeadlineInMillis) {
+                    soonDeadlinesCount++
+                }
+            }
+        }
+
+        if (soonDeadlinesCount > 0) {
+            NotificationHelper.showNotification(
+                applicationContext,
+                "Smart CRM: Nadchodzące terminy",
+                "Masz $soonDeadlinesCount klientów z terminem na dzisiaj lub jutro!"
+            )
+        }
+
+        if (frozenCount > 0) {
+            NotificationHelper.showNotification(
+                applicationContext,
+                "Smart CRM: Zamrożone kontakty",
+                "Masz $frozenCount kontaktów, które nie były obsługiwane od ponad 14 dni!"
+            )
         }
 
         return Result.success()
