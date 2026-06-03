@@ -1,3 +1,4 @@
+# Pliki generowane przez system i IDE
 *.iml
 .gradle
 /local.properties
@@ -8,12 +9,14 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
+
+# Folder budowania (ogromne pliki tymczasowe)
 /build
 /captures
+
+# Pliki natywne
 .externalNativeBuild
 .cxx
 
-# Dokumentacja i notatki (ignorowane dla czystego repo)
-*.txt
-*.md
-!README.md
+# Logi
+*.log
