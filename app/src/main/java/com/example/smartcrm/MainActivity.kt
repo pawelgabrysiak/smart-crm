@@ -158,7 +158,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         bottomBar = {
-                            if (currentRoute in listOf("home", "chats", "calls")) {
+                            if (currentRoute in listOf("home", "deadlines", "chats", "calls")) {
                                 BottomNavigationBar(
                                     currentRoute = currentRoute,
                                     onNavigate = { route ->
