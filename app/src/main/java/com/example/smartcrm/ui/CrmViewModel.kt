@@ -22,6 +22,7 @@ data class CrmUiState(
     val selectedClient: Client? = null,
     val notes: List<Note> = emptyList(),
     val interactions: List<Interaction> = emptyList(),
+    val selectedClientInteractions: List<Interaction> = emptyList(),
     val noteInput: String = "",
     val pendingInteraction: PendingInteraction? = null, // Nowe: przechowuje info o oczekującym potwierdzeniu
     val userName: String = "Paweł Gabrysiak"
@@ -105,7 +106,7 @@ class CrmViewModel @Inject constructor(
         }
         viewModelScope.launch {
             repository.getInteractionsForClient(clientId).collect { interactions ->
-                _uiState.update { it.copy(interactions = interactions) }
+                _uiState.update { it.copy(selectedClientInteractions = interactions) }
             }
         }
     }

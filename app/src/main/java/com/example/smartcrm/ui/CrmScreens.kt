@@ -289,7 +289,7 @@ fun ClientDetailScreen(viewModel: CrmViewModel, onBack: () -> Unit) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text("Historia kontaktu", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(8.dp))
-                state.interactions.forEach { interaction ->
+                state.selectedClientInteractions.forEach { interaction ->
                     InteractionItem(interaction)
                 }
             }
