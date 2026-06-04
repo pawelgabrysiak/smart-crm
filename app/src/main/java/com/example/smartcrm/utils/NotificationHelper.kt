@@ -14,7 +14,13 @@ object NotificationHelper {
     const val CHANNEL_ID = "smart_crm_notifications"
     const val CHANNEL_NAME = "Smart CRM Reminders"
 
-    fun showNotification(context: Context, title: String, message: String) {
+    // Stałe ID dla różnych typów powiadomień, aby się nie nadpisywały
+    const val ID_OVERDUE = 1001
+    const val ID_SOON = 1002
+    const val ID_FROZEN = 1003
+    const val ID_SYSTEM = 1000
+
+    fun showNotification(context: Context, title: String, message: String, notificationId: Int = System.currentTimeMillis().toInt()) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // Usunięto tworzenie kanału stąd, bo robimy to w MainActivity przy starcie
@@ -36,6 +42,6 @@ object NotificationHelper {
             .setAutoCancel(true)
             .build()
 
-        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
+        notificationManager.notify(notificationId, notification)
     }
 }

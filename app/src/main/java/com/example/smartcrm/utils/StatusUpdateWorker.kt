@@ -76,7 +76,8 @@ class StatusUpdateWorker @AssistedInject constructor(
             NotificationHelper.showNotification(
                 applicationContext,
                 "Smart CRM: Zaległe zadania! ⚠️",
-                "Masz $overdueDeadlinesCount zaległych terminów, które wymagają uwagi!"
+                "Masz $overdueDeadlinesCount zaległych terminów, które wymagają uwagi!",
+                NotificationHelper.ID_OVERDUE
             )
         }
 
@@ -84,7 +85,8 @@ class StatusUpdateWorker @AssistedInject constructor(
             NotificationHelper.showNotification(
                 applicationContext,
                 "Smart CRM: Nadchodzące terminy",
-                "Masz $soonDeadlinesCount klientów z terminem na dzisiaj lub jutro!"
+                "Masz $soonDeadlinesCount klientów z terminem na dzisiaj lub jutro!",
+                NotificationHelper.ID_SOON
             )
         }
 
@@ -92,7 +94,8 @@ class StatusUpdateWorker @AssistedInject constructor(
             NotificationHelper.showNotification(
                 applicationContext,
                 "Smart CRM: Zamrożone kontakty",
-                "Masz $frozenCount kontaktów, które nie były obsługiwane od ponad 14 dni!"
+                "Masz $frozenCount kontaktów, które nie były obsługiwane od ponad 14 dni!",
+                NotificationHelper.ID_FROZEN
             )
         }
 

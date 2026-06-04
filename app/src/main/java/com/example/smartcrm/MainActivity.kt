@@ -47,9 +47,6 @@ class MainActivity : ComponentActivity() {
 
         // Rejestracja kanału powiadomień w systemie (Android 8.0+)
         createNotificationChannel()
-        
-        // WYMUSZENIE: Wyślij powiadomienie testowe, aby system "zauważył" kanał
-        NotificationHelper.showNotification(this, "Smart CRM", "System powiadomień aktywny")
 
         // Uruchamiamy automat do sprawdzania statusów
         scheduleStatusUpdates(this)
