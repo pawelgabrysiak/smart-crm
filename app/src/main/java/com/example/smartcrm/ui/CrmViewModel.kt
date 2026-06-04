@@ -25,6 +25,7 @@ data class CrmUiState(
     val selectedClientInteractions: List<Interaction> = emptyList(),
     val noteInput: String = "",
     val pendingInteraction: PendingInteraction? = null, // Nowe: przechowuje info o oczekującym potwierdzeniu
+    val statsFilter: String = "WSZYSTKO", // "TYDZIEŃ", "MIESIĄC", "WSZYSTKO"
     val userName: String = "Paweł Gabrysiak"
 )
 
@@ -229,5 +230,21 @@ class CrmViewModel @Inject constructor(
     fun updateUserName(newName: String) {
         userPreferences.userName = newName
         _uiState.update { it.copy(userName = newName) }
+    }
+
+    fun onStatsFilterChange(newFilter: String) {
+        _uiState.update { it.copy(statsFilter = newFilter) }
+    }
+
+    fun toggleDeadlineCompletion(client: Client) {
+        viewModelScope.launch {
+            val updated = client.copy(deadlineCompleted = !client.deadlineCompleted)
+            updateClientUseCase(updated)
+            
+            // Jeśli odhaczono jako wykonane, dodaj automatyczną notatkę
+            if (updated.deadlineCompleted) {
+                repository.addNote(client.id, "Zrealizowano zaplanowany termin.")
+            }
+        }
     }
 }

@@ -54,15 +54,30 @@ class StatusUpdateWorker @AssistedInject constructor(
         // --- Sprawdzanie Deadline'ów ---
         val soonDeadlineInMillis = 24L * 60 * 60 * 1000 // 24h
         var soonDeadlinesCount = 0
+        var overdueDeadlinesCount = 0
 
         clients.forEach { client ->
             client.deadline?.let { deadline ->
-                val timeToDeadline = deadline - currentTime
-                // Powiadomienie jeśli termin jest dzisiaj/jutro (do 24h) i nie minął jeszcze o więcej niż godzinę
-                if (timeToDeadline in -3600000..soonDeadlineInMillis) {
-                    soonDeadlinesCount++
+                if (!client.deadlineCompleted) {
+                    val timeToDeadline = deadline - currentTime
+                    
+                    if (timeToDeadline < 0) {
+                        // Termin minął, a nie jest oznaczony jako wykonany
+                        overdueDeadlinesCount++
+                    } else if (timeToDeadline <= soonDeadlineInMillis) {
+                        // Termin jest dzisiaj/jutro (do 24h)
+                        soonDeadlinesCount++
+                    }
                 }
             }
+        }
+
+        if (overdueDeadlinesCount > 0) {
+            NotificationHelper.showNotification(
+                applicationContext,
+                "Smart CRM: Zaległe zadania! ⚠️",
+                "Masz $overdueDeadlinesCount zaległych terminów, które wymagają uwagi!"
+            )
         }
 
         if (soonDeadlinesCount > 0) {

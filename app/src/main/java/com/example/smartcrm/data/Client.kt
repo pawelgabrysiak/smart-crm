@@ -16,5 +16,6 @@ data class Client(
     val status: String,
     val imageUri: String? = null,
     val deadline: Long? = null, // Nowe: data deadline'u (timestamp)
+    val deadlineCompleted: Boolean = false, // Czy zadanie zostało wykonane
     val createdAt: Long = System.currentTimeMillis()
 )

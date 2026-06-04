@@ -409,10 +409,21 @@ fun CallsScreen(viewModel: CrmViewModel, onNavigateToDetails: (Client) -> Unit) 
 @Composable
 fun StatsScreen(viewModel: CrmViewModel, onBack: () -> Unit) {
     val state by viewModel.uiState.collectAsState()
+    val currentTime = System.currentTimeMillis()
     
-    val callCount = state.interactions.count { it.type == "CALL" }
-    val emailCount = state.interactions.count { it.type == "EMAIL" }
-    val whatsappCount = state.interactions.count { it.type == "WHATSAPP" }
+    // Filtrowanie interakcji na podstawie wybranego zakresu
+    val filteredInteractions = remember(state.interactions, state.statsFilter) {
+        val startTime = when (state.statsFilter) {
+            "TYDZIEŃ" -> currentTime - (7L * 24 * 60 * 60 * 1000)
+            "MIESIĄC" -> currentTime - (30L * 24 * 60 * 60 * 1000)
+            else -> 0L
+        }
+        state.interactions.filter { it.timestamp >= startTime }
+    }
+    
+    val callCount = filteredInteractions.count { it.type == "CALL" }
+    val emailCount = filteredInteractions.count { it.type == "EMAIL" }
+    val whatsappCount = filteredInteractions.count { it.type == "WHATSAPP" }
     val frozenCount = state.clients.count { it.status == "Zamrożony" }
 
     Scaffold(
@@ -435,6 +446,30 @@ fun StatsScreen(viewModel: CrmViewModel, onBack: () -> Unit) {
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Wybór zakresu czasowego
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                FilterChip(
+                    selected = state.statsFilter == "TYDZIEŃ",
+                    onClick = { viewModel.onStatsFilterChange("TYDZIEŃ") },
+                    label = { Text("Tydzień") }
+                )
+                FilterChip(
+                    selected = state.statsFilter == "MIESIĄC",
+                    onClick = { viewModel.onStatsFilterChange("MIESIĄC") },
+                    label = { Text("Miesiąc") }
+                )
+                FilterChip(
+                    selected = state.statsFilter == "WSZYSTKO",
+                    onClick = { viewModel.onStatsFilterChange("WSZYSTKO") },
+                    label = { Text("Wszystko") }
+                )
+            }
+            
+            Spacer(Modifier.height(16.dp))
+
             // Liczniki
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 StatCard("Połączenia", callCount.toString(), Icons.Default.Call, MaterialTheme.colorScheme.primary, Modifier.weight(1f))
@@ -442,7 +477,7 @@ fun StatsScreen(viewModel: CrmViewModel, onBack: () -> Unit) {
             }
             Spacer(Modifier.height(24.dp))
             
-            Text("Aktywność (Wykres)", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text("Aktywność (${state.statsFilter.lowercase().replaceFirstChar { it.uppercase() }})", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(16.dp))
             
             // Prosty wykres słupkowy

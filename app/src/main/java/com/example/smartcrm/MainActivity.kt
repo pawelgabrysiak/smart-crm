@@ -190,10 +190,10 @@ class MainActivity : ComponentActivity() {
                             composable("deadlines") {
                                 DeadlinesScreen(
                                     viewModel = viewModel,
-                                    onBack = { navController.popBackStack() },
                                     onNavigateToDetails = { client ->
                                         navController.navigate("details/${client.id}")
-                                    }
+                                    },
+                                    onOpenDrawer = { scope.launch { drawerState.open() } }
                                 )
                             }
                             composable("profile") {
