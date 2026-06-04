@@ -6,6 +6,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.smartcrm.data.*
+import com.example.smartcrm.utils.NotificationHelper
 import com.example.smartcrm.utils.StatusUpdateWorker
 import com.example.smartcrm.utils.UserPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -211,8 +212,35 @@ class CrmViewModel @Inject constructor(
                     editingClientId = null
                 )
             }
-            // Wymuszamy sprawdzenie statusów i powiadomień natychmiast po zapisaniu klienta
-            triggerImmediateNotificationCheck()
+            
+            // --- LOGIKA POWIADOMIENIA BEZPOŚREDNIEGO NA DEMO ---
+            val deadline = state.deadlineInput
+            if (deadline != null) {
+                val currentTime = System.currentTimeMillis()
+                if (deadline < currentTime) {
+                    // Jeśli data jest wsteczna, wysyłamy powiadomienie NATYCHMIAST
+                    NotificationHelper.showNotification(
+                        userPreferences.context,
+                        "Smart CRM: Zaległe zadanie! ⚠️",
+                        "Klient ${state.nameInput} oczekuje na kontakt (termin minął)!",
+                        NotificationHelper.ID_OVERDUE
+                    )
+                } else if (deadline - currentTime < 24 * 60 * 60 * 1000) {
+                    // Jeśli termin jest w ciągu 24h
+                    NotificationHelper.showNotification(
+                        userPreferences.context,
+                        "Smart CRM: Nadchodzący termin",
+                        "Masz zaplanowany kontakt z ${state.nameInput} na dzisiaj/jutro.",
+                        NotificationHelper.ID_SOON
+                    )
+                }
+            }
+            
+            // Dodatkowo odpalamy WorkManagera dla reszty bazy (opcjonalnie)
+            viewModelScope.launch {
+                kotlinx.coroutines.delay(1000)
+                triggerImmediateNotificationCheck()
+            }
         }
     }
 

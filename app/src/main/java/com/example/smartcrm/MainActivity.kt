@@ -261,9 +261,11 @@ class MainActivity : ComponentActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = NotificationHelper.CHANNEL_NAME
             val descriptionText = "Powiadomienia o terminach i kontaktach"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH // Zmieniono na HIGH dla dźwięku i wyskakujących okien
             val channel = NotificationChannel(NotificationHelper.CHANNEL_ID, name, importance).apply {
                 description = descriptionText
+                enableLights(true)
+                enableVibration(true)
             }
             val notificationManager: NotificationManager =
                 getSystemService(android.content.Context.NOTIFICATION_SERVICE) as NotificationManager
