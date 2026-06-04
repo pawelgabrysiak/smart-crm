@@ -2,6 +2,8 @@ package com.example.smartcrm
 
 import android.Manifest
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -28,6 +30,7 @@ import androidx.work.*
 import com.example.smartcrm.ui.*
 import com.example.smartcrm.ui.components.BottomNavigationBar
 import com.example.smartcrm.ui.components.Screen
+import com.example.smartcrm.utils.NotificationHelper
 import com.example.smartcrm.utils.StatusUpdateWorker
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
@@ -41,6 +44,9 @@ class SmartCRMApp : Application()
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Rejestracja kanału powiadomień w systemie (Android 8.0+)
+        createNotificationChannel()
 
         // Uruchamiamy automat do sprawdzania statusów
         scheduleStatusUpdates(this)
@@ -248,6 +254,20 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = NotificationHelper.CHANNEL_NAME
+            val descriptionText = "Powiadomienia o terminach i kontaktach"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(NotificationHelper.CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(android.content.Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 

@@ -11,16 +11,13 @@ import com.example.smartcrm.MainActivity
 import com.example.smartcrm.R
 
 object NotificationHelper {
-    private const val CHANNEL_ID = "smart_crm_notifications"
-    private const val CHANNEL_NAME = "Smart CRM Reminders"
+    const val CHANNEL_ID = "smart_crm_notifications"
+    const val CHANNEL_NAME = "Smart CRM Reminders"
 
     fun showNotification(context: Context, title: String, message: String) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager.createNotificationChannel(channel)
-        }
+        // Usunięto tworzenie kanału stąd, bo robimy to w MainActivity przy starcie
 
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
