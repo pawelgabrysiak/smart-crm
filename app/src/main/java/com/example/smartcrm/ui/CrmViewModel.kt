@@ -2,7 +2,11 @@ package com.example.smartcrm.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.smartcrm.data.*
+import com.example.smartcrm.utils.StatusUpdateWorker
 import com.example.smartcrm.utils.UserPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -207,7 +211,18 @@ class CrmViewModel @Inject constructor(
                     editingClientId = null
                 )
             }
+            // Wymuszamy sprawdzenie statusów i powiadomień natychmiast po zapisaniu klienta
+            triggerImmediateNotificationCheck()
         }
+    }
+
+    private fun triggerImmediateNotificationCheck() {
+        val workRequest = OneTimeWorkRequestBuilder<StatusUpdateWorker>().build()
+        WorkManager.getInstance(userPreferences.context).enqueueUniqueWork(
+            "ImmediateStatusCheck",
+            ExistingWorkPolicy.REPLACE,
+            workRequest
+        )
     }
 
     fun onEditClick(client: Client) {
