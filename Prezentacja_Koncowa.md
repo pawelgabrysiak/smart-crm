@@ -18,7 +18,7 @@ Smart CRM to dedykowane narzędzie dla freelancerów i małych firm, mające na 
 - **Szybka komunikacja**: Bezpośrednie przyciski do połączeń, e-maili i WhatsApp zintegrowane z systemem.
 - **Wyszukiwarka**: Dynamiczne filtrowanie bazy w czasie rzeczywistym.
 
-### 2. Inteligentne Terminy (Deadlines) - *NOWOŚĆ*
+### 2. Inteligentne Terminy (Deadlines)
 - **Logiczne grupowanie**: Podział na sekcje: 🔴 Zaległe, 🟡 Na dzisiaj, 🟢 Nadchodzące, ⚪ Zrealizowane.
 - **System To-Do**: Możliwość odhaczania zadań (Check-off) bezpośrednio na liście.
 - **Automatyczna Historia**: Każde odhaczone zadanie automatycznie generuje wpis w notatkach klienta ("Zrealizowano termin").
