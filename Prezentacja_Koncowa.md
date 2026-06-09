@@ -1,4 +1,5 @@
 # Prezentacja Końcowa Projektu: Smart CRM
+---
 **Autor: Paweł Gabrysiak**
 **Status Projektu: Ukończony (Wersja 1.5.0 Enterprise Edition)**
 
