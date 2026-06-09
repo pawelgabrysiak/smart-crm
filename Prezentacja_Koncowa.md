@@ -28,6 +28,7 @@ Smart CRM to dedykowane narzędzie dla freelancerów i małych firm, mające na 
 - **Filtrowanie czasowe**: Widok aktywności z **ostatniego tygodnia, miesiąca lub całej historii**.
 - **Wykresy aktywności**: Wizualizacja liczby połączeń, maili i wiadomości WhatsApp.
 - **Monitoring "Zamrożonych"**: Automatyczne wykrywanie klientów, z którymi nie było kontaktu od 14 dni (WorkManager).
+- **Historia kontaktu z klientem**: Widok aktywności na ekranach czaty i połączenia.
 
 ### 4. System Powiadomień i Profil
 - **Powiadomienia High-Priority**: Systemowe alerty o zaległych i nadchodzących terminach.
