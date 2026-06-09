@@ -36,7 +36,7 @@ Smart CRM to dedykowane narzędzie dla freelancerów i małych firm, mające na 
 
 ---
 
-## 🛠 Wyzwania Techniczne i Ich Rozwiązania
+## Wyzwania Techniczne i Ich Rozwiązania
 
 | Problem | Opis | Rozwiązanie |
 | :--- | :--- | :--- |
@@ -47,7 +47,7 @@ Smart CRM to dedykowane narzędzie dla freelancerów i małych firm, mające na 
 
 ---
 
-## 🏗 Architektura i Technologie
+## Architektura i Technologie
 - **Język**: Kotlin
 - **UI**: Jetpack Compose (Material 3)
 - **Baza danych**: Room (Wersja 6 - migracja schematu o pole `deadlineCompleted`)
@@ -57,7 +57,7 @@ Smart CRM to dedykowane narzędzie dla freelancerów i małych firm, mające na 
 
 ---
 
-## 🏁 Podsumowanie
+## Podsumowanie
 Projekt został zrealizowany zgodnie z założeniami, wykraczając poza pierwotne MVP. Aplikacja Smart CRM jest gotowa do codziennego użytku jako stabilne narzędzie wspierające pracę freelancera. 
 
 **Wszystkie funkcjonalności zostały zweryfikowane i działają poprawnie na systemie Android 13+.**
