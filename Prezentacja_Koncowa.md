@@ -33,7 +33,7 @@ Smart CRM to dedykowane narzędzie dla freelancerów i małych firm, mające na 
 ### 4. System Powiadomień i Profil
 - **Powiadomienia High-Priority**: Systemowe alerty o zaległych i nadchodzących terminach.
 - **Natychmiastowa Reakcja**: Powiadomienie pojawia się w sekundę po zapisaniu klienta z zaległym terminem.
-- **Profil Freelancera**: Możliwość personalizacji nazwy firmy/autora przechowywana trwale w `SharedPreferences`.
+- **Profil Freelancera**: Możliwość personalizacji nazwy firmy przechowywana trwale w `SharedPreferences`.
 
 ---
 
