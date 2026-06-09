@@ -1,17 +1,16 @@
 # Prezentacja Końcowa Projektu: Smart CRM
----
 **Autor: Paweł Gabrysiak**
 
 **Status Projektu: Ukończony (Wersja 1.5.0 Enterprise Edition)**
 
 ---
 
-## 🎯 Cel Projektu
+## Cel Projektu
 Smart CRM to dedykowane narzędzie dla freelancerów i małych firm, mające na celu uporządkowanie relacji z klientami, automatyzację przypomnień o terminach oraz analizę własnej aktywności. Projekt ewoluował od prostego MVP do rozbudowanego systemu zarządzania czasem.
 
 ---
 
-## 🚀 Zrealizowane Funkcjonalności
+## Zrealizowane Funkcjonalności
 
 ### 1. Zaawansowane Zarządzanie Klientami (CRM Core)
 - **Pełny cykl życia klienta**: Dodawanie, edycja, usuwanie (Room DB).
