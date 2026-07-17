@@ -50,10 +50,10 @@ Aplikacja została napisana w najnowszych standardach tworzenia aplikacji na sys
 
 **MAJ (Automatyzacja - CORE)**
 - [x] Sprint 5: Inteligentne Statusy (WorkManager) – automat po 14 dniach.
-- [ ] Sprint 6: Lokalne powiadomienia i szlify UX.
+- [x] Sprint 6: Lokalne powiadomienia i szlify UX.
 
 **CZERWIEC (Finał i Opcje)**
-- [ ] Sprint 7: Testy z użytkownikami (UAT), łatanie błędów, dokumentacja.
+- [x] Sprint 7: Testy z użytkownikami (UAT), łatanie błędów, dokumentacja.
 - [ ] Sprint 8 (Opcjonalnie): Generowanie maili przez AI, wskaźnik zysków (LTV).
 
 ---
