@@ -1,21 +1,50 @@
 package com.example.smartcrm.data
 
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
  * Repozytorium - jedyne źródło prawdy o danych w aplikacji.
- * Pośredniczy między bazą danych Room a resztą aplikacji.
+ * Pośredniczy między bazą danych Room, chmurą Firebase a resztą aplikacji.
  */
 @Singleton
 class ClientRepository @Inject constructor(
-    private val clientDao: ClientDao
+    private val clientDao: ClientDao,
+    private val firestore: FirebaseFirestore
 ) {
     // Strumień wszystkich klientów z bazy
     val clients = clientDao.getAllClients()
 
-    // Tworzy nowego klienta z unikalnym ID i zapisuje go w bazie
+    // init wykonuje sie dookladnie raz, w momencie tworzenia obeiktu klasy
+    init {
+        // 1. Otwieramy nasłuchiwanie w czasie rzeczywistym na kolekcji "clients" w Firebase
+        firestore.collection("clients")
+            .addSnapshotListener { snapshot, error ->
+                // Jeśli wystąpił błąd lub brak danych – ignorujemy
+                if (error != null || snapshot == null) return@addSnapshotListener
+
+                try {
+                    // 2. Mapujemy dokumenty z Firebase na obiekty Kotlinowe `Client`
+                    val clientsFromCloud = snapshot.toObjects(Client::class.java)
+
+                    // 3. W osobnym wątku zapisujemy pobranych klientów do lokalnej bazy Room
+                    CoroutineScope(Dispatchers.IO).launch {
+                        for (client in clientsFromCloud) {
+                            clientDao.insertClient(client)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+    }
+
+    // Tworzy nowego klienta z unikalnym ID i zapisuje go w bazie lokalnej oraz w chmurze
     suspend fun addClient(name: String, email: String, phone: String, imageUri: String? = null, deadline: Long? = null) {
         val newClient = Client(
             id = UUID.randomUUID().toString(), // Generowanie unikalnego ciągu znaków jako ID
@@ -26,17 +55,29 @@ class ClientRepository @Inject constructor(
             imageUri = imageUri,
             deadline = deadline
         )
+        // 1. Zapis w lokalnej bazie danych Room
         clientDao.insertClient(newClient)
+
+        // 2. Synchronizacja z chmurą Firebase Firestore
+        firestore.collection("clients")
+            .document(newClient.id)
+            .set(newClient)
     }
 
-    // Aktualizuje dane istniejącego klienta
+    // Aktualizuje dane istniejącego klienta lokalnie i w chmurze
     suspend fun updateClient(updatedClient: Client) {
         clientDao.insertClient(updatedClient)
+        firestore.collection("clients")
+            .document(updatedClient.id)
+            .set(updatedClient)
     }
 
     // Usuwa klienta z bazy po jego identyfikatorze
     suspend fun deleteClient(clientId: String) {
         clientDao.deleteById(clientId)
+        firestore.collection("clients")
+            .document(clientId)
+            .delete()
     }
 
     // --- Notatki ---

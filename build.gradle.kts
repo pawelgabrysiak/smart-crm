@@ -6,4 +6,5 @@ plugins {
 
     // TO JEST KLUCZOWE: Rejestracja pluginu Hilt z Twojego TOML
     alias(libs.plugins.dagger.hilt.android) apply false
+    alias(libs.plugins.google.services) apply false
 }

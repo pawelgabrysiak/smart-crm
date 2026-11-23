@@ -9,11 +9,11 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "clients")
 data class Client(
-    @PrimaryKey val id: String, // unikalny indefikator klienta w baza
-    val name: String,
-    val email: String,
-    val phone: String,
-    val status: String,
+    @PrimaryKey val id: String = "", // unikalny indefikator klienta w baza
+    val name: String = "",
+    val email: String = "",
+    val phone: String = "",
+    val status: String = "Nowy",
     val imageUri: String? = null,
     val deadline: Long? = null, // Nowe: data deadline'u (timestamp)
     val deadlineCompleted: Boolean = false, // Czy zadanie zostało wykonane

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "550195725238",
+    "project_id": "smartcrm-f6f51",
+    "storage_bucket": "smartcrm-f6f51.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550195725238:android:03641a270b3cb4c4ecf717",
+        "android_client_info": {
+          "package_name": "com.example.smartcrm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXsOo32C2eXL9BuCh9u1VQ197uKZj2dAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
